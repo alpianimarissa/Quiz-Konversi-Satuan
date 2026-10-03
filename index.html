@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Mandiri Konversi Satuan 1D, 2D, & 3D (40 Soal Essay)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+        }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-700 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-lg text-slate-900 tracking-tight block leading-none">Kuis Konversi Satuan</span>
+                        <span class="text-xs font-semibold text-brand-700">40 Soal Essay Mandiri</span>
+                    </div>
+                </div>
+
+                <!-- Auto Save Status Indicator -->
+                <div class="flex items-center space-x-4">
+                    <div id="save-status" class="flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-600">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 pulse-dot"></span>
+                        <span id="save-status-text">Tersimpan Otomatis</span>
+                    </div>
+                    
+                    <button onclick="openResetModal()" class="text-xs font-bold text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg transition border border-rose-200">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Riset Jawaban
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-gradient-to-r from-slate-900 via-brand-900 to-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-brand-800">
+        <div class="max-w-5xl mx-auto text-center space-y-4">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-xs font-bold uppercase tracking-wider border border-brand-400/30">
+                <i class="fa-solid fa-brain"></i> Uji Pemahaman Mandiri
+            </span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                Evaluasi Mandiri Konversi Satuan 1D, 2D, & 3D
+            </h1>
+
+            <div class="max-w-md mx-auto pt-2">
+                <div class="flex justify-between items-center text-xs font-bold text-slate-300 mb-1.5">
+                    <span>Kemajuan Pengisian:</span>
+                    <span id="progress-text" class="text-brand-300 font-mono">0 / 40 Terisi</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-3 p-0.5 border border-slate-700">
+                    <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-emerald-400 h-2 rounded-full transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+
+        <form id="quiz-form" onsubmit="event.preventDefault(); submitQuiz();" class="space-y-8">
+            <div id="questions-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 40 Questions injected dynamically via JS -->
+            </div>
+
+            <div class="sticky bottom-4 z-30 bg-white/95 backdrop-blur border border-slate-200 rounded-2xl p-4 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 max-w-3xl mx-auto">
+                <div class="text-xs text-slate-500 text-center sm:text-left">
+                    <span class="font-bold text-slate-700 block">Sudah selesai memeriksa jawabanmu?</span>
+                    Klik tombol di samping untuk menilai seluruh jawaban essay secara otomatis.
+                </div>
+                <button type="submit" class="w-full sm:w-auto bg-brand-700 hover:bg-brand-800 text-white font-extrabold px-8 py-3 rounded-xl transition shadow-lg shadow-brand-700/30 flex items-center justify-center gap-2 shrink-0">
+                    <i class="fa-solid fa-paper-plane"></i> Kirim & Periksa Jawaban
+                </button>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- RESULT MODAL -->
+    <div id="result-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden my-8">
+            <div class="bg-gradient-to-r from-slate-900 to-brand-950 p-6 text-white text-center relative">
+                <div class="w-16 h-16 bg-brand-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-brand-400/30">
+                    <i class="fa-solid fa-trophy text-amber-400 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold">Hasil Evaluasi Kuis Mandiri</h2>
+                <p class="text-xs text-slate-300 mt-1">Laporan penilaian 40 Soal Essay Konversi Satuan</p>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <!-- Score Breakdown Cards -->
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl">
+                        <span class="text-xs font-semibold text-slate-500 uppercase block">Skor Akhir</span>
+                        <span id="modal-score" class="text-2xl sm:text-3xl font-extrabold text-brand-700 font-mono">0</span>
+                        <span class="text-xs text-slate-400 font-semibold block">/ 100</span>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl">
+                        <span class="text-xs font-semibold text-emerald-700 uppercase block">Benar</span>
+                        <span id="modal-correct" class="text-2xl sm:text-3xl font-extrabold text-emerald-700 font-mono">0</span>
+                        <span class="text-xs text-emerald-600 font-semibold block">Soal</span>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-200 p-4 rounded-2xl">
+                        <span class="text-xs font-semibold text-rose-700 uppercase block">Salah / Kosong</span>
+                        <span id="modal-wrong" class="text-2xl sm:text-3xl font-extrabold text-rose-700 font-mono">0</span>
+                        <span class="text-xs text-rose-600 font-semibold block">Soal</span>
+                    </div>
+                </div>
+
+                <div id="modal-feedback-msg" class="p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed text-center"></div>
+
+                <div class="flex justify-end gap-3 pt-2">
+                    <button onclick="closeResultModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition text-sm">
+                        Tutup & Tinjau Pembahasan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESET CONFIRMATION MODAL -->
+    <div id="reset-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl p-6 border border-slate-100 text-center space-y-4">
+            <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900">Riset Seluruh Jawaban?</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Tindakan ini akan menghapus semua jawaban essay yang telah kamu ketik dari memori browser. Tindakan ini tidak dapat dibatalkan.
+            </p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeResetModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">
+                    Batal
+                </button>
+                <button onclick="confirmResetQuiz()" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                    Ya, Hapus Semua
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            // 1D Length (1-5)
+            { id: 1, prompt: "1) Konversikan 12 km menjadi m.", answer: "12000", unit: "m" },
+            { id: 2, prompt: "2) Konversikan 4.500 cm menjadi m.", answer: "45", unit: "m" },
+            { id: 3, prompt: "3) Konversikan 0,8 dam menjadi cm.", answer: "800", unit: "cm" },
+            { id: 4, prompt: "4) Konversikan 650 mm menjadi dm.", answer: "6.5", unit: "dm" },
+            { id: 5, prompt: "5) Konversikan 3,4 hm menjadi m.", answer: "340", unit: "m" },
+
+            // 1D Mass & Capacity (6-10)
+            { id: 6, prompt: "6) Konversikan 3,5 ton menjadi kg.", answer: "3500", unit: "kg" },
+            { id: 7, prompt: "7) Konversikan 25 kuintal menjadi kg.", answer: "2500", unit: "kg" },
+            { id: 8, prompt: "8) Konversikan 8 hg (ons) menjadi gram.", answer: "800", unit: "gram" },
+            { id: 9, prompt: "9) Konversikan 7.500 mg menjadi gram.", answer: "7.5", unit: "gram" },
+            { id: 10, prompt: "10) Konversikan 4,2 Liter menjadi mL.", answer: "4200", unit: "mL" },
+
+            // 1D Capacity & 2D Area Basic (11-15)
+            { id: 11, prompt: "11) Konversikan 850 cL menjadi Liter.", answer: "8.5", unit: "Liter" },
+            { id: 12, prompt: "12) Konversikan 0,05 kL menjadi Liter.", answer: "50", unit: "Liter" },
+            { id: 13, prompt: "13) Konversikan 6 m<sup>2</sup> menjadi cm<sup>2</sup>.", answer: "60000", unit: "cm²" },
+            { id: 14, prompt: "14) Konversikan 35.000 dm<sup>2</sup> menjadi m<sup>2</sup>.", answer: "350", unit: "m²" },
+            { id: 15, prompt: "15) Konversikan 0,04 km<sup>2</sup> menjadi m<sup>2</sup>.", answer: "40000", unit: "m²" },
+
+            // 2D Area & Land Bridges (16-20)
+            { id: 16, prompt: "16) Konversikan 250.000 mm<sup>2</sup> menjadi dm<sup>2</sup>.", answer: "25", unit: "dm²" },
+            { id: 17, prompt: "17) Konversikan 8 ha (Hektar) menjadi m<sup>2</sup>.", answer: "80000", unit: "m²" },
+            { id: 18, prompt: "18) Konversikan 15 a (Are) menjadi m<sup>2</sup>.", answer: "1500", unit: "m²" },
+            { id: 19, prompt: "19) Konversikan 450 a (Are) menjadi Hektar (ha).", answer: "4.5", unit: "ha" },
+            { id: 20, prompt: "20) Konversikan 3,2 hm<sup>2</sup> menjadi Hektar (ha).", answer: "3.2", unit: "ha" },
+
+            // 2D & 3D Volume Basic (21-25)
+            { id: 21, prompt: "21) Konversikan 120 ca (centiare) menjadi m<sup>2</sup>.", answer: "120", unit: "m²" },
+            { id: 22, prompt: "22) Konversikan 2 m<sup>3</sup> menjadi dm<sup>3</sup>.", answer: "2000", unit: "dm³" },
+            { id: 23, prompt: "23) Konversikan 5.000.000 cm<sup>3</sup> menjadi m<sup>3</sup>.", answer: "5", unit: "m³" },
+            { id: 24, prompt: "24) Konversikan 0,007 m<sup>3</sup> menjadi cm<sup>3</sup>.", answer: "7000", unit: "cm³" },
+            { id: 25, prompt: "25) Konversikan 14 dm<sup>3</sup> menjadi Liter.", answer: "14", unit: "Liter" },
+
+            // 3D Volume & Capacity Bridges (26-30)
+            { id: 26, prompt: "26) Konversikan 8.500 cm<sup>3</sup> menjadi Liter.", answer: "8.5", unit: "Liter" },
+            { id: 27, prompt: "27) Konversikan 250 cc menjadi mL.", answer: "250", unit: "mL" },
+            { id: 28, prompt: "28) Konversikan 1,5 m<sup>3</sup> menjadi Liter.", answer: "1500", unit: "Liter" },
+            { id: 29, prompt: "29) Konversikan 3 kL menjadi m<sup>3</sup>.", answer: "3", unit: "m³" },
+            { id: 30, prompt: "30) Konversikan 650 mL menjadi cm<sup>3</sup>.", answer: "650", unit: "cm³" },
+
+            // Real-world Applied Story Problems (31-40)
+            { id: 31, prompt: "31) Sebuah lapangan sepak bola memiliki luas 0,75 ha. Berapa m<sup>2</sup> luas lapangan tersebut?", answer: "7500", unit: "m²" },
+            { id: 32, prompt: "32) Pak Ahmad membeli sebidang tanah seluas 25 a. Berapa m<sup>2</sup> luas tanah Pak Ahmad?", answer: "2500", unit: "m²" },
+            { id: 33, prompt: "33) Hutan lindung seluas 12 hm<sup>2</sup> akan dijadikan area konservasi. Berapa Hektar (ha) luas hutan tersebut?", answer: "12", unit: "ha" },
+            { id: 34, prompt: "34) Sebuah bak penampungan air memiliki volume 1,2 m<sup>3</sup>. Berapa Liter air yang dapat ditampung penuh?", answer: "1200", unit: "Liter" },
+            { id: 35, prompt: "35) Sebuah akuarium diisi air sebanyak 45 dm<sup>3</sup>. Berapa Liter volume air akuarium tersebut?", answer: "45", unit: "Liter" },
+            { id: 36, prompt: "36) Seorang perawat memberikan cairan infus 500 mL kepada pasien. Berapa cc volume cairan infus tersebut?", answer: "500", unit: "cc" },
+            { id: 37, prompt: "37) Resep obat batuk menentukan dosis 10 cc sekali minum. Jika sirup diminum 3 kali sehari selama 5 hari, berapa mL total sirup yang dikonsumsi?", answer: "150", unit: "mL" },
+            { id: 38, prompt: "38) Sebuah tangki truk memuat 0,25 m<sup>3</sup> bahan bakar solar. Berapa Liter solar di dalam tangki tersebut?", answer: "250", unit: "Liter" },
+            { id: 39, prompt: "39) Luas pekarangan rumah Mita adalah 500 m<sup>2</sup>. Berapa Are (a) luas pekarangan tersebut?", answer: "5", unit: "a" },
+            { id: 40, prompt: "40) Sebuah wadah memuat 3.500 mL minyak goreng. Berapa Liter minyak goreng dalam wadah tersebut?", answer: "3.5", unit: "Liter" }
+        ];
+
+        const STORAGE_KEY = "quiz_essay_40_answers_v1";
+        let userAnswers = {};
+
+        function loadSavedAnswers() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    userAnswers = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error("Gagal memuat jawaban tersimpan", e);
+                userAnswers = {};
+            }
+        }
+
+        function saveAnswer(questionId, val) {
+            userAnswers[questionId] = val;
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(userAnswers));
+                triggerSavePulse();
+            } catch (e) {
+                console.error("Gagal menyimpan ke localStorage", e);
+            }
+            updateProgressBar();
+        }
+
+        function triggerSavePulse() {
+            const statusText = document.getElementById('save-status-text');
+            statusText.innerText = "Tersimpan...";
+            setTimeout(() => {
+                statusText.innerText = "Tersimpan Otomatis";
+            }, 800);
+        }
+
+        function updateProgressBar() {
+            let filledCount = 0;
+            quizQuestions.forEach(q => {
+                if (userAnswers[q.id] && userAnswers[q.id].trim() !== "") {
+                    filledCount++;
+                }
+            });
+
+            document.getElementById('progress-text').innerText = `${filledCount} / 40 Terisi`;
+            const pct = (filledCount / 40) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach(q => {
+                const savedVal = userAnswers[q.id] || '';
+
+                const card = document.createElement('div');
+                card.id = `q-card-${q.id}`;
+                card.className = "glass-card rounded-2xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col justify-between space-y-3";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-brand-700 bg-brand-50 border border-brand-200 px-2.5 py-0.5 rounded-md">
+                                Soal #${q.id}
+                            </span>
+                            <span id="badge-status-${q.id}" class="text-xs font-bold text-slate-400">
+                                ${savedVal ? '<i class="fa-solid fa-check text-brand-600"></i> Terisi' : 'Belum diisi'}
+                            </span>
+                        </div>
+                        <p class="font-semibold text-slate-800 text-sm sm:text-base leading-snug">${q.prompt}</p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100">
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                            <div class="flex items-center gap-2 flex-grow">
+                                <input type="text" 
+                                    id="input-q-${q.id}"
+                                    value="${savedVal}"
+                                    oninput="handleInput(${q.id}, this.value)"
+                                    placeholder="Ketik jawaban angka..." 
+                                    class="w-full bg-slate-50 border border-slate-300 focus:bg-white focus:ring-2 focus:ring-brand-500 rounded-xl px-3.5 py-2 text-slate-900 font-mono text-sm outline-none transition">
+                                <span class="font-bold text-slate-600 text-sm shrink-0 bg-slate-100 px-3 py-2 rounded-xl border border-slate-200 min-w-[50px] text-center">
+                                    ${q.unit}
+                                </span>
+                            </div>
+                            <button type="button" 
+                                onclick="checkSingleQuestion(${q.id})"
+                                class="bg-brand-700 hover:bg-brand-800 active:bg-brand-900 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shrink-0 shadow-sm">
+                                <i class="fa-solid fa-circle-check"></i> Cek Jawaban
+                            </button>
+                        </div>
+                        <div id="feedback-${q.id}" class="hidden mt-2 p-2.5 rounded-xl text-xs font-medium leading-relaxed"></div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateProgressBar();
+        }
+
+        function handleInput(qId, val) {
+            saveAnswer(qId, val);
+            const badge = document.getElementById(`badge-status-${qId}`);
+            const feedbackEl = document.getElementById(`feedback-${qId}`);
+            const cardEl = document.getElementById(`q-card-${qId}`);
+            
+            if (cardEl) {
+                cardEl.className = "glass-card rounded-2xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col justify-between space-y-3";
+            }
+            if (feedbackEl) {
+                feedbackEl.classList.add('hidden');
+            }
+
+            if (val && val.trim() !== "") {
+                badge.innerHTML = '<i class="fa-solid fa-check text-brand-600"></i> Terisi';
+            } else {
+                badge.innerText = 'Belum diisi';
+            }
+        }
+
+        function checkSingleQuestion(qId) {
+            const q = quizQuestions.find(item => item.id === qId);
+            if (!q) return;
+
+            const userRaw = (userAnswers[q.id] || "").trim().replace(',', '.');
+            const targetRaw = q.answer.replace(',', '.');
+
+            const feedbackEl = document.getElementById(`feedback-${q.id}`);
+            const cardEl = document.getElementById(`q-card-${q.id}`);
+
+            if (userRaw === "") {
+                feedbackEl.className = "mt-2 p-2.5 rounded-xl text-xs font-medium leading-relaxed bg-amber-100 text-amber-950 border border-amber-300";
+                feedbackEl.innerHTML = '⚠️ <strong>Silakan ketik jawaban terlebih dahulu sebelum mengecek.</strong>';
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+
+            let isCorrect = false;
+            const userNum = parseFloat(userRaw);
+            const targetNum = parseFloat(targetRaw);
+
+            if (!isNaN(userNum) && !isNaN(targetNum)) {
+                isCorrect = Math.abs(userNum - targetNum) < 0.0001;
+            } else {
+                isCorrect = (userRaw === targetRaw);
+            }
+
+            if (isCorrect) {
+                cardEl.className = "glass-card rounded-2xl p-5 shadow-sm border-2 border-emerald-500 bg-emerald-50/20 flex flex-col justify-between space-y-3";
+                feedbackEl.className = "mt-2 p-2.5 rounded-xl text-xs font-medium leading-relaxed bg-emerald-100 text-emerald-950 border border-emerald-300";
+                feedbackEl.innerHTML = `✅ <strong>Jawaban Tepat!</strong> (${q.answer} ${q.unit})`;
+                document.getElementById(`badge-status-${q.id}`).innerHTML = '<span class="text-emerald-700 font-extrabold"><i class="fa-solid fa-circle-check text-emerald-600"></i> Benar</span>';
+            } else {
+                cardEl.className = "glass-card rounded-2xl p-5 shadow-sm border-2 border-rose-400 bg-rose-50/20 flex flex-col justify-between space-y-3";
+                feedbackEl.className = "mt-2 p-2.5 rounded-xl text-xs font-medium leading-relaxed bg-rose-100 text-rose-950 border border-rose-300";
+                feedbackEl.innerHTML = `❌ <strong>Kurang Tepat.</strong> Jawaban yang benar: <strong>${q.answer} ${q.unit}</strong>`;
+                document.getElementById(`badge-status-${q.id}`).innerHTML = '<span class="text-rose-700 font-extrabold"><i class="fa-solid fa-circle-xmark text-rose-600"></i> Salah</span>';
+            }
+
+            feedbackEl.classList.remove('hidden');
+        }
+
+        function submitQuiz() {
+            let correctCount = 0;
+            let wrongCount = 0;
+
+            quizQuestions.forEach(q => {
+                const userRaw = (userAnswers[q.id] || "").trim().replace(',', '.');
+                const targetRaw = q.answer.replace(',', '.');
+
+                const feedbackEl = document.getElementById(`feedback-${q.id}`);
+                const cardEl = document.getElementById(`q-card-${q.id}`);
+
+                let isCorrect = false;
+
+                if (userRaw !== "") {
+                    const userNum = parseFloat(userRaw);
+                    const targetNum = parseFloat(targetRaw);
+
+                    if (!isNaN(userNum) && !isNaN(targetNum)) {
+                        isCorrect = Math.abs(userNum - targetNum) < 0.0001;
+                    } else {
+                        isCorrect = (userRaw === targetRaw);
+                    }
+                }
+
+                if (isCorrect) {
+                    correctCount++;
+                    cardEl.className = "glass-card rounded-2xl p-5 shadow-sm border-2 border-emerald-500 bg-emerald-50/20 flex flex-col justify-between space-y-3";
+                    feedbackEl.className = "mt-2 p-2.5 rounded-xl text-xs font-medium leading-relaxed bg-emerald-100 text-emerald-950 border border-emerald-300";
+                    feedbackEl.innerHTML = `✅ <strong>Jawaban Tepat!</strong> (${q.answer} ${q.unit})`;
+                } else {
+                    wrongCount++;
+                    cardEl.className = "glass-card rounded-2xl p-5 shadow-sm border-2 border-rose-400 bg-rose-50/20 flex flex-col justify-between space-y-3";
+                    feedbackEl.className = "mt-2 p-2.5 rounded-xl text-xs font-medium leading-relaxed bg-rose-100 text-rose-950 border border-rose-300";
+                    feedbackEl.innerHTML = `❌ <strong>Kurang Tepat.</strong> Jawaban yang benar: <strong>${q.answer} ${q.unit}</strong>`;
+                }
+
+                feedbackEl.classList.remove('hidden');
+            });
+
+            const score = Math.round((correctCount / 40) * 100);
+
+            document.getElementById('modal-score').innerText = score;
+            document.getElementById('modal-correct').innerText = correctCount;
+            document.getElementById('modal-wrong').innerText = wrongCount;
+
+            const msgBox = document.getElementById('modal-feedback-msg');
+            if (score === 100) {
+                msgBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed text-center bg-emerald-100 text-emerald-950 border border-emerald-300";
+                msgBox.innerHTML = "🎉 <strong>Luar Biasa! Sempurna 100!</strong> Kamu telah menguasai seluruh konversi satuan 1D, 2D, 3D, dan penerapannya secara sempurna!";
+            } else if (score >= 75) {
+                msgBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed text-center bg-brand-100 text-brand-950 border border-brand-300";
+                msgBox.innerHTML = "👏 <strong>Sangat Bagus!</strong> Pemahaman konversi satuanmu sudah sangat baik. Tinjau kembali soal yang salah untuk evaluasi.";
+            } else if (score >= 50) {
+                msgBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed text-center bg-amber-100 text-amber-950 border border-amber-300";
+                msgBox.innerHTML = "👍 <strong>Cukup Baik!</strong> Kamu sudah memahami dasar-dasar konversi. Perbanyak latihan pada jembatan satuan seperti Liter dan Hektar.";
+            } else {
+                msgBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed text-center bg-rose-100 text-rose-950 border border-rose-300";
+                msgBox.innerHTML = "💪 <strong>Jangan Berkecil Hati!</strong> Pelajari kembali prinsip tangga 1D (x10), 2D (x100), 3D (x1000) serta jembatan satuan, lalu coba lagi!";
+            }
+
+            document.getElementById('result-modal').classList.remove('hidden');
+        }
+
+        function closeResultModal() {
+            document.getElementById('result-modal').classList.add('hidden');
+        }
+
+        function openResetModal() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function confirmResetQuiz() {
+            try {
+                localStorage.removeItem(STORAGE_KEY);
+            } catch (e) {}
+
+            userAnswers = {};
+            renderQuiz();
+            closeResetModal();
+        }
+
+        // Initialize App on DOM Load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedAnswers();
+            renderQuiz();
+        });
+    </script>
+</body>
+</html>
